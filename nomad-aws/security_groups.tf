@@ -19,6 +19,7 @@ resource "aws_security_group_rule" "nomad_outbound_egress" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"] # tfsec:ignore:aws-vpc-no-public-egress-sgr
+  ipv6_cidr_blocks  = ["::/0"] # tfsec:ignore:aws-vpc-no-public-egress-sgr
 }
 
 

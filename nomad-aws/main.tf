@@ -122,9 +122,19 @@ resource "aws_autoscaling_group" "clients_asg" {
   desired_capacity    = var.nodes
   force_delete        = true
 
-  launch_template {
-    id      = aws_launch_template.nomad_clients.id
-    version = var.launch_template_version
+  mixed_instances_policy {
+    instances_distribution {
+      on_demand_base_capacity                  = 0
+      on_demand_percentage_above_base_capacity = 0
+      spot_allocation_strategy                 = "lowest-price"
+      spot_instance_pools                      = 0
+    }
+    launch_template {
+      launch_template_specification {
+        launch_template_id = aws_launch_template.nomad_clients.id
+        version            = var.launch_template_version
+      }
+    }
   }
 
   tag {
